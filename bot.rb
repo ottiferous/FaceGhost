@@ -1,0 +1,15 @@
+require_relative 'FaceDriver.rb'
+
+if __FILE__ == $0
+	connect = FaceDriver.new
+	connect.login(ARGV[0], ARGV[1])
+
+	data = PersistentDictionary
+	data.load("dict/wall.json")
+	result = TwoSentenceGen.new(data.dictionary)
+	message = result.generate(8)
+
+	connect.post(message)
+	connect.logout
+	connect.close
+end
